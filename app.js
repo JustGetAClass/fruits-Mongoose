@@ -6,7 +6,7 @@ main().catch((err) => console.log(err));
 
 // async function
 async function main() {
-	//localhost ain't working because in config it's binding to 127.0.0.1
+
 	const url = "mongodb://127.0.0.1:27017/fruitsDB";
 	await mongoose.connect(url, {
 		useNewUrlParser: true,
@@ -19,6 +19,7 @@ async function main() {
 		review: String,
 	});
 
+    // * adding one fruit to the collection
 	const Fruit = new mongoose.model("Fruit", fruitSchema);
 
 	const fruit = new Fruit({
@@ -31,6 +32,7 @@ async function main() {
 
 	//   await fruit.save(); // insert one item into the collection
 
+    //* creating a new collection Person(people) and adding a person to it.
 	const personSchema = new mongoose.Schema({
 		name: String,
 		age: Number,
@@ -45,6 +47,7 @@ async function main() {
 
 	// await person.save();
 
+    //* adding many fruits to the database
 	const fruits = [
 		{ name: "Orange", rating: 7, review: "Great fruit" },
 		{ name: "Banana", rating: 8, review: "Awesome fruit" },
