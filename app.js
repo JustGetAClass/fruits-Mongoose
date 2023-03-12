@@ -13,8 +13,15 @@ async function main() {
 
 	// The fruit schema
 	const fruitSchema = new mongoose.Schema({
-		name: String,
-		rating: Number,
+		name: {
+			type: String,
+			required: [true, "You need a name"], // or you can just put true
+		},
+		rating: {
+			type: Number,
+			min: 1,
+			max: 10,
+		},
 		review: String,
 	});
 
@@ -22,14 +29,12 @@ async function main() {
 	const Fruit = new mongoose.model("Fruit", fruitSchema);
 
 	const fruit = new Fruit({
-		name: "Apple",
-
-		rating: 7.0,
-
-		review: "pretty solid as a fruit",
+		name: "Peach",
+		rating: 9,
+		review: "peaches are very yummy",
 	});
 
-	//   await fruit.save(); // insert one item into the collection
+	await fruit.save(); // insert one item into the collection
 
 	//* creating a new collection Person(people) and adding a person to it.
 	const personSchema = new mongoose.Schema({
@@ -47,11 +52,11 @@ async function main() {
 	// await person.save();
 
 	//* adding many fruits to the database
-	const fruits = [
-		{ name: "Orange", rating: 7, review: "Great fruit" },
-		{ name: "Banana", rating: 8, review: "Awesome fruit" },
-		{ name: "Kiwi", rating: 9, review: "Wonderful fruit" },
-	];
+	// const fruits = [
+	// 	{ name: "Orange", rating: 7, review: "Great fruit" },
+	// 	{ name: "Banana", rating: 8, review: "Awesome fruit" },
+	// 	{ name: "Kiwi", rating: 9, review: "Wonderful fruit" },
+	// ];
 
 	// Fruit.insertMany(fruits)
 	// 	.then(() => console.log("Successfully added fruits to database"))
@@ -60,16 +65,17 @@ async function main() {
 
 	//!   mongoose.connection.close(); // close the mongoose connection
 
-    //* finds the fruits in the collections and prints them out
+	//* finds the fruits in the collections and prints them out
 	Fruit.find()
-		.then( (fruits) => {
-			fruits.forEach((fruit) =>{
-                console.log(fruit.name);
-            })
+		.then((fruits) => {
+			fruits.forEach((fruit) => {
+				console.log(fruit.name);
+			});
 		})
-		.catch( (err) => {
+		.catch((err) => {
 			console.log(err);
+		})
+		.finally(() => {
+			mongoose.connection.close();
 		});
-
-
 }
