@@ -40,14 +40,28 @@ async function main() {
 	const personSchema = new mongoose.Schema({
 		name: String,
 		age: Number,
+		favouriteFruit: fruitSchema, //* creating relationships
 	});
 
 	const Person = new mongoose.model("Person", personSchema);
 
-	const person = new Person({
-		name: "John",
-		age: 37,
+	const mango = new Fruit({
+		name: "Mango",
+		rating: 9,
+		review: "cool fruit",
 	});
+
+	await mango.save();
+
+	Person.updateOne({ name: "John" }, { favouriteFruit: mango })
+		.then((result) => console.log(result))
+		.catch((err) => console.log(err));
+
+	// const person = new Person({
+	// 	name: "Amy",
+	// 	age: 17,
+	//     favouriteFruit: pineapple,
+	// });
 
 	// await person.save();
 
@@ -75,9 +89,9 @@ async function main() {
 		.catch((err) => {
 			console.log(err);
 		})
-		// .finally(() => {
-		// 	mongoose.connection.close();
-		// });
+		.finally(() => {
+			mongoose.connection.close();
+		});
 
 	//* updating
 	// Fruit.updateOne(
@@ -88,9 +102,9 @@ async function main() {
 	// 	.catch((err) => console.log(err))
 	// 	.finally(() => mongoose.connection.close());
 
-    //* deleting
-    // Fruit.deleteOne({name: "Dragon Fruit"})
-    //     .then((result) => console.log(result))
-    //     .catch((err) => console.log(err))
-    //     .finally(() => mongoose.connection.close());
+	//* deleting
+	// Fruit.deleteOne({name: "Dragon Fruit"})
+	//     .then((result) => console.log(result))
+	//     .catch((err) => console.log(err))
+	//     .finally(() => mongoose.connection.close());
 }
