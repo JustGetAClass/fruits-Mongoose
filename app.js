@@ -34,7 +34,7 @@ async function main() {
 		review: "peaches are very yummy",
 	});
 
-	await fruit.save(); // insert one item into the collection
+	// await fruit.save(); // insert one item into the collection
 
 	//* creating a new collection Person(people) and adding a person to it.
 	const personSchema = new mongoose.Schema({
@@ -75,7 +75,22 @@ async function main() {
 		.catch((err) => {
 			console.log(err);
 		})
-		.finally(() => {
-			mongoose.connection.close();
-		});
+		// .finally(() => {
+		// 	mongoose.connection.close();
+		// });
+
+	//* updating
+	// Fruit.updateOne(
+	// 	{ _id: "640db560eae2bf2a763a3c9e" },
+	// 	{ name: "Dragon Fruit" }
+	// )
+	// 	.then((result) => console.log(result))
+	// 	.catch((err) => console.log(err))
+	// 	.finally(() => mongoose.connection.close());
+
+    //* deleting
+    // Fruit.deleteOne({name: "Dragon Fruit"})
+    //     .then((result) => console.log(result))
+    //     .catch((err) => console.log(err))
+    //     .finally(() => mongoose.connection.close());
 }
