@@ -6,7 +6,6 @@ main().catch((err) => console.log(err));
 
 // async function
 async function main() {
-
 	const url = "mongodb://127.0.0.1:27017/fruitsDB";
 	await mongoose.connect(url, {
 		useNewUrlParser: true,
@@ -19,7 +18,7 @@ async function main() {
 		review: String,
 	});
 
-    // * adding one fruit to the collection
+	// * adding one fruit to the collection
 	const Fruit = new mongoose.model("Fruit", fruitSchema);
 
 	const fruit = new Fruit({
@@ -32,7 +31,7 @@ async function main() {
 
 	//   await fruit.save(); // insert one item into the collection
 
-    //* creating a new collection Person(people) and adding a person to it.
+	//* creating a new collection Person(people) and adding a person to it.
 	const personSchema = new mongoose.Schema({
 		name: String,
 		age: Number,
@@ -47,17 +46,30 @@ async function main() {
 
 	// await person.save();
 
-    //* adding many fruits to the database
+	//* adding many fruits to the database
 	const fruits = [
 		{ name: "Orange", rating: 7, review: "Great fruit" },
 		{ name: "Banana", rating: 8, review: "Awesome fruit" },
 		{ name: "Kiwi", rating: 9, review: "Wonderful fruit" },
 	];
 
-	Fruit.insertMany(fruits)
-		.then(() => console.log("Successfully added fruits to database"))
-		.catch((error) => console.log(error))
-		.finally(() => mongoose.connection.close()); // close the mongoose connection
+	// Fruit.insertMany(fruits)
+	// 	.then(() => console.log("Successfully added fruits to database"))
+	// 	.catch((error) => console.log(error))
+	// 	.finally(() => mongoose.connection.close());
 
-	//   mongoose.connection.close(); // close the mongoose connection
+	//!   mongoose.connection.close(); // close the mongoose connection
+
+    //* finds the fruits in the collections and prints them out
+	Fruit.find()
+		.then( (fruits) => {
+			fruits.forEach((fruit) =>{
+                console.log(fruit.name);
+            })
+		})
+		.catch( (err) => {
+			console.log(err);
+		});
+
+
 }
